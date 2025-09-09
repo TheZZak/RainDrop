@@ -1,6 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { fetchForecast, fetchAirQuality, fetchAstronomy } from '@/lib/openmeteo';
 import { fetchRainviewer } from '@/lib/rainviewer';
+import { fetchAirNowData } from '@/lib/airnow';
 import { usePreferences } from '@/store/usePreferences';
 
 export function useWeatherData(lat: number | null, lon: number | null) {
@@ -51,11 +52,19 @@ export function useWeatherData(lat: number | null, lon: number | null) {
 		queryFn: () => fetchAstronomy({ latitude: lat!, longitude: lon!, daily: 'sunrise,sunset,moonrise,moonset,moon_phase', timezone: 'auto' })
 	});
 
+	const airNow = useQuery({
+		queryKey: ['airnow', lat, lon],
+		enabled,
+		queryFn: () => fetchAirNowData(lat!, lon!),
+		staleTime: 300_000, // 5 minutes - AirNow data updates hourly
+		retry: 2
+	});
+
 	const rain = useQuery({
 		queryKey: ['rainviewer'],
 		staleTime: 60_000,
 		queryFn: fetchRainviewer
 	});
 
-	return { forecast, air, astronomy, rain };
+	return { forecast, air, astronomy, rain, airNow };
 }
