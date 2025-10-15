@@ -10,8 +10,8 @@ export const AirNowObservationSchema = z.object({
 	Longitude: z.number(),
 	ParameterName: z.string(),
 	AQI: z.number(),
-	CategoryNumber: z.number(),
-	CategoryName: z.string()
+	CategoryNumber: z.number().optional(),
+	CategoryName: z.string().optional()
 });
 
 export const AirNowResponseSchema = z.array(AirNowObservationSchema);

@@ -18,6 +18,9 @@ const AirQualityCard: React.FC = () => {
 	const hasError = (airNow?.isError && air?.isError) ?? false;
 	const showUnavailable = hasError || aqi == null;
 
+	// Debug logging
+	console.log('Debug: AirNow AQI:', airNowAQI, ', OpenMeteo AQI:', openMeteoAQI, ', AirNow Loading:', airNow?.isLoading, ', AirNow Error:', airNow?.error);
+
 	const categoryColor = aqi != null ? getAQICategoryColor(aqi) : 'transparent';
 
 	return (
@@ -62,7 +65,7 @@ const AirQualityCard: React.FC = () => {
 			)}
 			{airNow?.data && airNow.data.length > 0 && (
 				<div className="mt-2 text-xs text-slate-400">
-					Reporting area: {airNow.data[0]?.ReportingArea || 'Unknown'}
+					{airNow.data[0]?.ReportingArea || 'Unknown'}
 				</div>
 			)}
 		</div>
