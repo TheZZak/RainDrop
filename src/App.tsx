@@ -65,7 +65,7 @@ const App: React.FC = () => {
 		const isDay = (hourlyDay[idx] ?? 1) === 1;
 		return iconForWeatherCode(code ?? 1, isDay) as any;
 	};
-// try to reduce layout shift by reserving space for the main content
+// try to reduce layout shift by reserving space for the main
 	return (
 		<div className="min-h-screen text-white">
 			<div className="relative z-10 mx-auto max-w-[1440px] px-8 py-8">
