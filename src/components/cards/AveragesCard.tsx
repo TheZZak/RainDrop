@@ -79,7 +79,7 @@ const AveragesCard: React.FC = () => {
 									</span>
 								</>
 							) : (
-								<span className="text-slate-400">—</span>
+								<span className="text-slate-400"></span>
 							)}
 						</div>
 					</div>
