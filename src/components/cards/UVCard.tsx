@@ -3,11 +3,11 @@ import { useLocation } from '@/store/useLocation';
 import { useWeatherData } from '@/hooks/useWeatherData';
 
 function uvColor(v: number) {
-	if (v <= 2) return '#22c55e';
-	if (v <= 5) return '#eab308';
-	if (v <= 7) return '#f97316';
-	if (v <= 10) return '#ef4444';
-	return '#a21caf';
+	if (v <= 2) return '#22c55e'; // Good
+	if (v <= 5) return '#eab308'; // Moderate
+	if (v <= 7) return '#f97316'; // High
+	if (v <= 10) return '#ef4444'; // Very High
+	return '#a21caf'; // Extreme
 }
 
 const UVCard: React.FC = () => {

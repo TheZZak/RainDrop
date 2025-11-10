@@ -2,6 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 import { fetchForecast, fetchAirQuality, fetchAstronomy } from '@/lib/openmeteo';
 import { fetchRainviewer } from '@/lib/rainviewer';
 import { fetchAirNowData } from '@/lib/airnow';
+import { fetchClimateNormals } from '@/lib/climate';
 import { usePreferences } from '@/store/usePreferences';
 
 export function useWeatherData(lat: number | null, lon: number | null) {
@@ -66,5 +67,14 @@ export function useWeatherData(lat: number | null, lon: number | null) {
 		queryFn: fetchRainviewer
 	});
 
-	return { forecast, air, astronomy, rain, airNow };
+	const climate = useQuery({
+		queryKey: ['climate', lat, lon],
+		enabled,
+		queryFn: () => fetchClimateNormals(lat!, lon!),
+		staleTime: 86400_000, // 24 hours - climate normals don't change often
+		retry: 2
+	});
+
+
+	return { forecast, air, astronomy, rain, airNow, climate };
 }
