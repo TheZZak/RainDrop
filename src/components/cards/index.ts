@@ -10,3 +10,4 @@ export { default as VisibilityCard } from './VisibilityCard';
 export { default as PressureCard } from './PressureCard';
 export { default as AveragesCard } from './AveragesCard';
 export { default as InsightCard } from './InsightCard';
+    

@@ -1,9 +1,9 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
-export type TemperatureUnit = 'c' | 'f';
-export type WindUnit = 'kmh' | 'ms' | 'mph';
-export type PrecipUnit = 'mm' | 'in';
+export type TemperatureUnit = 'f' | 'c';
+export type WindUnit = 'mph' | 'kmh' | 'ms';
+export type PrecipUnit = 'in' | 'mm';
 export type PressureUnit = 'hPa' | 'inHg';
 export type ThemePreference = 'system' | 'light' | 'dark';
 
@@ -23,9 +23,9 @@ export interface PreferencesState {
 export const usePreferences = create<PreferencesState>()(
 	persist(
 		(set) => ({
-			temperatureUnit: 'c',
-			windUnit: 'kmh',
-			precipUnit: 'mm',
+			temperatureUnit: 'f',
+			windUnit: 'mph',
+			precipUnit: 'in',
 			pressureUnit: 'hPa',
 			theme: 'system',
 			setTemperatureUnit: (unit) => set({ temperatureUnit: unit }),

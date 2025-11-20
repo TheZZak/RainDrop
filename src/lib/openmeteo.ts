@@ -52,7 +52,8 @@ export const ForecastSchema = z.object({
 		sunrise: z.array(z.string().nullable()).optional(),
 		sunset: z.array(z.string().nullable()).optional(),
 		uv_index_max: z.array(z.number().nullable()).optional(),
-		wind_speed_10m_max: z.array(z.number().nullable()).optional()
+		wind_speed_10m_max: z.array(z.number().nullable()).optional(),
+		weather_code: z.array(z.number().nullable()).optional()
 	}).optional()
 });
 
