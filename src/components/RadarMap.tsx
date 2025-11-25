@@ -28,10 +28,23 @@ function RainviewerOverlay({ framePath, host }: { framePath: string; host: strin
 const RadarMap: React.FC = () => {
 	const { lat, lon } = useLocation();
 	const { rain } = useWeatherData(lat, lon);
+<<<<<<< Updated upstream
 	const frames = useMemo(() => rain.data ? [...(rain.data.radar.past ?? []), ...(rain.data.radar.nowcast ?? [])] : [], [rain.data]);
 	const [ix, setIx] = useState(Math.max(0, frames.length - 1));
 	useEffect(() => { setIx(Math.max(0, frames.length - 1)); }, [frames.length]);
 	const [playing, setPlaying] = useState(false);
+=======
+
+	// Call ALL hooks first - before any returns
+	const frames = useMemo(() => rain.data ? [...(rain.data.radar.past ?? []), ...(rain.data.radar.nowcast ?? [])] : [], [rain.data]);
+	const [ix, setIx] = useState(Math.max(0, frames.length - 1));
+	const [playing, setPlaying] = useState(false);
+
+	useEffect(() => {
+		setIx(Math.max(0, frames.length - 1));
+	}, [frames.length]);
+
+>>>>>>> Stashed changes
 	useEffect(() => {
 		if (!playing || frames.length === 0) return;
 		const t = setInterval(() => setIx((i) => (i + 1) % frames.length), 700);
@@ -45,6 +58,10 @@ const RadarMap: React.FC = () => {
 			<div className="relative">
 				<MapContainer center={center} zoom={7} style={{ height: 320, width: '100%' }} scrollWheelZoom={false}>
 					<TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" attribution="&copy; OpenStreetMap" />
+<<<<<<< Updated upstream
+=======
+					<MapUpdater center={center} />
+>>>>>>> Stashed changes
 					{rain.data && frames[ix] && (
 						<RainviewerOverlay framePath={frames[ix].path} host={rain.data.host} />
 					)}

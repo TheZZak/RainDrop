@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
+import { persist, createJSONStorage } from 'zustand/middleware';
 
 export type GeolocationStatus = 'idle' | 'prompt' | 'granted' | 'denied' | 'error';
 
@@ -9,9 +9,11 @@ export interface LocationState {
 	name: string | null;
 	geoStatus: GeolocationStatus;
 	lastResolvedAt: number | null;
+	_hasHydrated: boolean;
 	setLocation: (lat: number, lon: number, name?: string | null) => void;
 	setName: (name: string | null) => void;
 	setGeoStatus: (status: GeolocationStatus) => void;
+	setHasHydrated: (state: boolean) => void;
 }
 
 export const useLocation = create<LocationState>()(
@@ -22,10 +24,30 @@ export const useLocation = create<LocationState>()(
 			name: null,
 			geoStatus: 'idle',
 			lastResolvedAt: null,
+			_hasHydrated: false,
 			setLocation: (lat, lon, name = null) => set({ lat, lon, name, lastResolvedAt: Date.now() }),
 			setName: (name) => set({ name }),
 			setGeoStatus: (geoStatus) => set({ geoStatus }),
+			setHasHydrated: (state) => set({ _hasHydrated: state }),
 		}),
+<<<<<<< Updated upstream
 		{ name: 'loc' }
+=======
+		{
+			name: 'loc',
+			storage: createJSONStorage(() => localStorage),
+			onRehydrateStorage: () => (state) => {
+				console.log('Location hydrated:', state);
+				state?.setHasHydrated(true);
+			},
+			partialState: (state) => ({
+				lat: state.lat,
+				lon: state.lon,
+				name: state.name,
+				geoStatus: state.geoStatus,
+				lastResolvedAt: state.lastResolvedAt
+			})
+		}
+>>>>>>> Stashed changes
 	)
 );
