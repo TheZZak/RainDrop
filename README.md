@@ -328,8 +328,3 @@ MIT License — see [LICENSE](LICENSE) for details.
 - [Google Gemini](https://ai.google.dev/) — AI model
 - [Leaflet](https://leafletjs.com/) — Interactive maps
 
----
-
-<p align="center">
-  Made with ☀️ by <a href="https://github.com/TheZZak">TheZZak</a>
-</p>
