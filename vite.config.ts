@@ -5,7 +5,7 @@ import path from 'path';
 export default defineConfig({
 	plugins: [react()],
 	// For GitHub Pages - change 'weatherApp' to your repo name
-	base: process.env.GITHUB_PAGES === 'true' ? '/weatherApp/' : '/',
+	base: process.env.GITHUB_PAGES === 'true' ? '/RainDrop/' : '/',
 	resolve: {
 		alias: {
 			'@': path.resolve(__dirname, 'src')
