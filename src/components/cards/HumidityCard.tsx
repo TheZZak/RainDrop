@@ -9,18 +9,13 @@ const HumidityCard: React.FC = () => {
 	const { forecast } = useWeatherData(lat, lon);
 	const { temperatureUnit } = usePreferences();
 	const cur = forecast.data?.current;
-	let tempC: number | null = null;
-	if (cur?.temperature_2m != null) {
-		const temp = cur.temperature_2m;
-		tempC = temperatureUnit === 'f'
-		   ? (temp - 32) * 5/9
-		   : temp;
-	}
 
-	const humidity: number | null = cur?.relative_humidity_2m ?? null;
-    const dew = tempC != null && humidity != null
-       ? dewPointC(tempC, humidity)
-       : null;
+	// API returns temperature in Celsius
+	const tempC = cur?.temperature_2m ?? null;
+	const humidity = cur?.relative_humidity_2m ?? null;
+	const dew = tempC != null && humidity != null
+		? dewPointC(tempC, humidity)
+		: null;
 
 	return (
 		<div className="rounded-xl bg-white/5 p-4 border border-white/10">

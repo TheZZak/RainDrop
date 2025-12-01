@@ -40,16 +40,6 @@ const UVCard: React.FC = () => {
 		return maxUV > 0 ? maxUV : null;
 	}, [forecast.data?.hourly?.uv_index, forecast.data?.hourly?.time]);
 
-	// Debug logging
-	console.log('UVCard Debug:', {
-		isLoading: forecast.isLoading,
-		isError: forecast.isError,
-		uvData: forecast.data?.hourly?.uv_index?.slice(0, 24),
-		timeData: forecast.data?.hourly?.time?.slice(0, 24),
-		calculatedUV: uv,
-		currentHour: new Date().getHours()
-	});
-
 	return (
 		<div className="rounded-xl bg-white/5 p-4 border border-white/10">
 			<div className="text-sm text-slate-300">UV Index</div>

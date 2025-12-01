@@ -43,8 +43,7 @@ const SearchBox = ({ onChange, placeholder }: SearchBoxProps) => {
 				setVal('Current Location');
 				setIsGettingLocation(false);
 			},
-			(error) => {
-				console.error('Error getting location:', error);
+			() => {
 				alert('Unable to get your location. Please check your browser permissions.');
 				setIsGettingLocation(false);
 			},

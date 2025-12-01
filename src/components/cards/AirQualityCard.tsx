@@ -8,19 +8,15 @@ const AirQualityCard: React.FC = () => {
 	const { lat, lon } = useLocation();
 	const { air, airNow } = useWeatherData(lat, lon);
 
-	// Prefer AirNow data, fallback to Open-Meteo
+	// Prefer AirNow data, fallback to Open-Meteo (current then hourly)
 	const airNowAQI = airNow?.data ? getOverallAQI(airNow.data) : null;
-	const openMeteoAQI = air?.data?.hourly?.us_aqi?.[0] ?? null;
+	const openMeteoAQI = air?.data?.current?.us_aqi ?? air?.data?.hourly?.us_aqi?.[0] ?? null;
 
 	const aqi = airNowAQI ?? openMeteoAQI;
 	const dataSource = airNowAQI ? 'AirNow' : 'Open-Meteo';
 	const isLoading = (airNow?.isLoading && air?.isLoading) ?? false;
 	const hasError = (airNow?.isError && air?.isError) ?? false;
 	const showUnavailable = hasError || aqi == null;
-
-	// Debug logging
-	console.log('Debug: AirNow AQI:', airNowAQI, ', OpenMeteo AQI:', openMeteoAQI, ', AirNow Loading:', airNow?.isLoading, ', AirNow Error:', airNow?.error);
-
 	const categoryColor = aqi != null ? getAQICategoryColor(aqi) : 'transparent';
 
 	return (
