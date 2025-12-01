@@ -1,19 +1,55 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { useLocation } from '@/store/useLocation';
 import { useWeatherData } from '@/hooks/useWeatherData';
 
 function uvColor(v: number) {
-	if (v <= 2) return '#22c55e';
-	if (v <= 5) return '#eab308';
-	if (v <= 7) return '#f97316';
-	if (v <= 10) return '#ef4444';
-	return '#a21caf';
+	if (v <= 2) return '#22c55e'; // Good
+	if (v <= 5) return '#eab308'; // Moderate
+	if (v <= 7) return '#f97316'; // High
+	if (v <= 10) return '#ef4444'; // Very High
+	return '#a21caf'; // Extreme
 }
 
 const UVCard: React.FC = () => {
 	const { lat, lon } = useLocation();
 	const { forecast } = useWeatherData(lat, lon);
-	const uv = forecast.data?.hourly?.uv_index?.[0] ?? null;
+
+	// Find max UV for remainder of day instead of just first hour
+	const uv = useMemo(() => {
+		const uvData = forecast.data?.hourly?.uv_index;
+		const timeData = forecast.data?.hourly?.time;
+
+		if (!uvData || !timeData) return null;
+
+		const now = new Date();
+		const currentHour = now.getHours();
+
+		// Find today's UV values from current hour onwards
+		let maxUV = 0;
+		for (let i = 0; i < Math.min(24, uvData.length, timeData.length); i++) {
+			const hourTime = new Date(timeData[i]);
+			// Only consider future hours of today
+			if (hourTime.getHours() >= currentHour && hourTime.toDateString() === now.toDateString()) {
+				const uvValue = uvData[i];
+				if (uvValue != null && uvValue > maxUV) {
+					maxUV = uvValue;
+				}
+			}
+		}
+
+		return maxUV > 0 ? maxUV : null;
+	}, [forecast.data?.hourly?.uv_index, forecast.data?.hourly?.time]);
+
+	// Debug logging
+	console.log('UVCard Debug:', {
+		isLoading: forecast.isLoading,
+		isError: forecast.isError,
+		uvData: forecast.data?.hourly?.uv_index?.slice(0, 24),
+		timeData: forecast.data?.hourly?.time?.slice(0, 24),
+		calculatedUV: uv,
+		currentHour: new Date().getHours()
+	});
+
 	return (
 		<div className="rounded-xl bg-white/5 p-4 border border-white/10">
 			<div className="text-sm text-slate-300">UV Index</div>
